@@ -3,7 +3,7 @@ package com.gavrilenkoan.blogrestapi.service;
 import com.gavrilenkoan.blogrestapi.config.JwtService;
 import com.gavrilenkoan.blogrestapi.dao.UserDao;
 import com.gavrilenkoan.blogrestapi.dto.AuthenticationDto;
-import com.gavrilenkoan.blogrestapi.dto.RegistrationDto;
+import com.gavrilenkoan.blogrestapi.dto.UserDto;
 import com.gavrilenkoan.blogrestapi.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,27 +18,21 @@ public class AuthService {
     private final JwtService jwtService;
 
 
-    public String register(RegistrationDto request) {
-        User user = new User(
-                request.getUsername(),
-                request.getFirstname(),
-                request.getLastname(),
-                request.getEmail(),
-                request.getPassword()
-        );
+    public String register(UserDto userDto) {
 
-        if (userDao.selectUserByUsername(user.getUsername()).isPresent()) {
+        if (userDao.selectUserByUsername(userDto.getUsername()).isPresent()) {
             throw new IllegalStateException("username already taken");
         }
-        if (userDao.selectUserByEmail(user.getEmail()).isPresent()) {
+        if (userDao.selectUserByEmail(userDto.getEmail()).isPresent()) {
             throw new IllegalStateException("email already taken");
         }
-        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
+        String encodedPassword = bCryptPasswordEncoder.encode(userDto.getPassword());
+        userDto.setPassword(encodedPassword);
 
-        userDao.insertUser(user);
+        userDao.insertUser(userDto);
 
-        return jwtService.generateToken(user);
+        return jwtService.generateToken(userDao.selectUserByEmail(userDto.getEmail())
+                .orElseThrow(IllegalStateException::new));
     }
 
     public String authenticate(AuthenticationDto request) {

@@ -10,11 +10,11 @@ import java.util.List;
 @Setter
 public class Comment {
 
-    Long id;
+    Integer id;
     String comment;
     Date dateOfPublish;
-    Long postId;
-    Long userId;
+    Integer postId;
+    Integer userId;
     List<Comment> replies;
     List<Reaction> reactions;
 }

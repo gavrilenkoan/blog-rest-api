@@ -20,8 +20,8 @@ public class JwtService {
 
     private final String SECRET_KEY = "26452948404D635166546A576E5A7234743777217A25432A462D4A614E645267";
 
-    public Long extractId(String token) {
-        return extractAllClaims(token).get("id", Long.class);
+    public Integer extractId(String token) {
+        return extractAllClaims(token).get("id", Integer.class);
     }
 
     public String extractUsername(String token) {

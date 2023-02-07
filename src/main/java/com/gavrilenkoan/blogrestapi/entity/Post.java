@@ -9,7 +9,7 @@ import java.util.List;
 @Setter
 public class Post {
 
-    Long id;
+    Integer id;
     String title;
     String text;
     User user;

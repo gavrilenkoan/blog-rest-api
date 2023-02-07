@@ -1,7 +1,7 @@
 package com.gavrilenkoan.blogrestapi.controller;
 
 import com.gavrilenkoan.blogrestapi.dto.AuthenticationDto;
-import com.gavrilenkoan.blogrestapi.dto.RegistrationDto;
+import com.gavrilenkoan.blogrestapi.dto.UserDto;
 import com.gavrilenkoan.blogrestapi.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/registration")
-    public ResponseEntity<String> register(@RequestBody RegistrationDto request) {
+    public ResponseEntity<String> register(@RequestBody UserDto request) {
         return ResponseEntity.ok(authService.register(request));
     }
 

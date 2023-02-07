@@ -6,9 +6,17 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PostDao {
+
     List<Post> selectPosts();
-    Post insertPost(Long userId, Post post);
-    Long deletePost(Long id);
-    Optional<Post> selectPostById(Long id);
-    Post updatePost(Long id);
+
+    List<Post> selectPostsByUserId(Integer userId);
+
+    Integer insertPost(Integer userId, Post post);
+
+    Integer deletePost(Integer id);
+
+    Optional<Post> selectPostById(Integer id);
+
+    Post updatePost(Integer id);
+
 }

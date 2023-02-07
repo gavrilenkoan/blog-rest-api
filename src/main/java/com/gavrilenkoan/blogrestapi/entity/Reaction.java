@@ -7,9 +7,9 @@ import lombok.Setter;
 @Setter
 public class Reaction {
 
-    Long id;
+    Integer id;
     Boolean reaction;
-    Long userId;
-    Long postId;
-    Long commentId;
+    Integer userId;
+    Integer postId;
+    Integer commentId;
 }

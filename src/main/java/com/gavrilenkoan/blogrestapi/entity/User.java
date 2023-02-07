@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 public class User implements UserDetails {
 
-    Long id;
+    Integer id;
     String username;
     String firstname;
     String lastname;
@@ -24,7 +24,8 @@ public class User implements UserDetails {
     List<User> followers;
     List<User> followed;
 
-    public User(String username, String firstname, String lastname, String email, String password) {
+    public User(Integer id, String username, String firstname, String lastname, String email, String password) {
+        this.id = id;
         this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
