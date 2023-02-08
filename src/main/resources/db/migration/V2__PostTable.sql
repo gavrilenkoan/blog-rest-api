@@ -1,0 +1,6 @@
+CREATE TABLE post (
+   id BIGSERIAL PRIMARY KEY,
+   title VARCHAR(50) NOT NULL,
+   "text" VARCHAR(200) NOT NULL,
+   user_id BIGINT NOT NULL REFERENCES _user(id)
+);
