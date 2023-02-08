@@ -20,13 +20,19 @@ public interface UserDao {
 
     Optional<User> selectUserByEmail(String email);
 
-    Integer updateUserUsername(Integer id, String username);
+    void updateUserUsername(Integer id, String username);
 
-    Integer updateUserFirstname(Integer id, String firstname);
+    void updateUserFirstname(Integer id, String firstname);
 
-    Integer updateUserLastname(Integer id, String lastname);
+    void updateUserLastname(Integer id, String lastname);
 
-    Integer updateUserEmail(Integer id, String email);
+    void updateUserEmail(Integer id, String email);
 
-    Integer updateUserPassword(Integer id, String password);
+    void updateUserPassword(Integer id, String password);
+
+    List<User> selectAllFollowersById(Integer id);
+
+    List<User> selectAllFollowedById(Integer id);
+
+    Integer insertFollowed(Integer userId, Integer followerId);
 }

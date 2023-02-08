@@ -49,4 +49,16 @@ public class UserService {
     public String deleteUser(Integer id) {
         return userDas.deleteUser(id) == 1 ? "deleted successfully" : "smth went wrong";
     }
+
+    public List<User> getFollowersById(Integer id) {
+        return userDas.selectAllFollowersById(id);
+    }
+
+    public List<User> getFollowedById(Integer id) {
+        return userDas.selectAllFollowedById(id);
+    }
+
+    public String addFollowed(Integer userId, Integer followerId) {
+        return userDas.insertFollowed(userId, followerId) == 1 ? "inserted successfully" : "something went wrong";
+    }
 }

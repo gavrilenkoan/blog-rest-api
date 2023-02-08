@@ -8,7 +8,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class UserDas implements UserDao {
@@ -65,32 +67,56 @@ public class UserDas implements UserDao {
     }
 
     @Override
-    public Integer updateUserUsername(Integer id, String username) {
+    public void updateUserUsername(Integer id, String username) {
         var sql = "UPDATE _user SET username = ? WHERE id = ?";
-        return jdbcTemplate.update(sql, username, id);
+        jdbcTemplate.update(sql, username, id);
     }
 
     @Override
-    public Integer updateUserFirstname(Integer id, String firstname) {
+    public void updateUserFirstname(Integer id, String firstname) {
         var sql = "UPDATE _user SET firstname = ? WHERE id = ?";
-        return jdbcTemplate.update(sql, firstname, id);
+        jdbcTemplate.update(sql, firstname, id);
     }
 
     @Override
-    public Integer updateUserLastname(Integer id, String lastname) {
+    public void updateUserLastname(Integer id, String lastname) {
         var sql = "UPDATE _user SET lastname = ? WHERE id = ?";
-        return jdbcTemplate.update(sql, lastname, id);
+        jdbcTemplate.update(sql, lastname, id);
     }
 
     @Override
-    public Integer updateUserEmail(Integer id, String email) {
+    public void updateUserEmail(Integer id, String email) {
         var sql = "UPDATE _user SET email = ? WHERE id = ?";
-        return jdbcTemplate.update(sql, email, id);
+        jdbcTemplate.update(sql, email, id);
     }
 
     @Override
-    public Integer updateUserPassword(Integer id, String password) {
+    public void updateUserPassword(Integer id, String password) {
         var sql = "UPDATE _user SET \"password\" = ? WHERE id = ?";
-        return jdbcTemplate.update(sql, password, id);
+        jdbcTemplate.update(sql, password, id);
+    }
+
+    @Override
+    public List<User> selectAllFollowersById(Integer id) {
+        var sql = "SELECT _user.id, username, firstname, lastname, email, \"password\" FROM user_follower JOIN _user ON user_id = ?";
+        return jdbcTemplate.query(sql, new UserRowMapper(), id)
+                .stream()
+                .filter(f -> !Objects.equals(f.getId(), id))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<User> selectAllFollowedById(Integer id) {
+        var sql = "SELECT _user.id, username, firstname, lastname, email, \"password\" FROM user_follower JOIN _user ON follower_id = ?";
+        return jdbcTemplate.query(sql, new UserRowMapper(), id)
+                .stream()
+                .filter(f -> !Objects.equals(f.getId(), id))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Integer insertFollowed(Integer userId, Integer followerId) {
+        var sql = "INSERT INTO user_follower(user_id, follower_id) VALUES (?, ?)";
+        return jdbcTemplate.update(sql, userId, followerId);
     }
 }

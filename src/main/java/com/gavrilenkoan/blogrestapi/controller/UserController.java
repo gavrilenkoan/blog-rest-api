@@ -49,4 +49,19 @@ public class UserController {
         return ResponseEntity.ok(userService.deleteUser(jwtService.extractId(token)));
     }
 
+    @GetMapping("/followers/{id}")
+    public ResponseEntity<List<User>> getFollowers(@PathVariable Integer id) {
+        return ResponseEntity.ok(userService.getFollowersById(id));
+    }
+
+    @GetMapping("/followed/{id}")
+    public ResponseEntity<List<User>> getFollowed(@PathVariable Integer id) {
+        return ResponseEntity.ok(userService.getFollowedById(id));
+    }
+
+    @PostMapping("/{followedId}")
+    public ResponseEntity<String> addFollowed(HttpServletRequest request, @PathVariable Integer followedId) {
+        String token = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
+        return ResponseEntity.ok(userService.addFollowed(followedId, jwtService.extractId(token)));
+    }
 }
