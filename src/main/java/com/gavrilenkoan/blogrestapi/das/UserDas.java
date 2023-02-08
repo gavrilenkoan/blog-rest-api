@@ -3,14 +3,13 @@ package com.gavrilenkoan.blogrestapi.das;
 import com.gavrilenkoan.blogrestapi.dao.UserDao;
 import com.gavrilenkoan.blogrestapi.dto.UserDto;
 import com.gavrilenkoan.blogrestapi.entity.User;
+import com.gavrilenkoan.blogrestapi.rowmapper.UserFollowerRowMapper;
 import com.gavrilenkoan.blogrestapi.rowmapper.UserRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
 public class UserDas implements UserDao {
@@ -98,25 +97,28 @@ public class UserDas implements UserDao {
 
     @Override
     public List<User> selectAllFollowersById(Integer id) {
-        var sql = "SELECT _user.id, username, firstname, lastname, email, \"password\" FROM user_follower JOIN _user ON user_id = ?";
-        return jdbcTemplate.query(sql, new UserRowMapper(), id)
-                .stream()
-                .filter(f -> !Objects.equals(f.getId(), id))
-                .collect(Collectors.toList());
+        var sql = "SELECT _user.id, username, firstname, lastname, email, \"password\" FROM _user JOIN user_follower uf ON _user.id = uf.follower_id WHERE uf.user_id = ?";
+        return jdbcTemplate.query(sql, new UserRowMapper(), id);
     }
 
     @Override
-    public List<User> selectAllFollowedById(Integer id) {
-        var sql = "SELECT _user.id, username, firstname, lastname, email, \"password\" FROM user_follower JOIN _user ON follower_id = ?";
-        return jdbcTemplate.query(sql, new UserRowMapper(), id)
-                .stream()
-                .filter(f -> !Objects.equals(f.getId(), id))
-                .collect(Collectors.toList());
+    public List<User> selectAllFollowingById(Integer id) {
+        var sql = "SELECT _user.id, username, firstname, lastname, email, \"password\" FROM _user JOIN user_follower uf ON _user.id = uf.user_id WHERE uf.follower_id = ?";
+        return jdbcTemplate.query(sql, new UserRowMapper(), id);
     }
 
     @Override
-    public Integer insertFollowed(Integer userId, Integer followerId) {
+    public Integer insertFollowing(Integer userId, Integer followerId) {
         var sql = "INSERT INTO user_follower(user_id, follower_id) VALUES (?, ?)";
         return jdbcTemplate.update(sql, userId, followerId);
+    }
+
+    @Override
+    public boolean isUserFollowerRelationExists(Integer userId, Integer followerId) {
+        var sql = "SELECT * FROM user_follower WHERE user_id = ? AND follower_id = ?";
+        return jdbcTemplate.query(sql, new UserFollowerRowMapper(), userId, followerId)
+                .stream()
+                .findFirst()
+                .isPresent();
     }
 }

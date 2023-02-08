@@ -22,7 +22,7 @@ public class User implements UserDetails {
     String password;
     List<Post> posts;
     List<User> followers;
-    List<User> followed;
+    List<User> following;
 
     public User(Integer id, String username, String firstname, String lastname, String email, String password) {
         this.id = id;
@@ -31,6 +31,10 @@ public class User implements UserDetails {
         this.lastname = lastname;
         this.email = email;
         this.password = password;
+    }
+
+    public User(Integer id) {
+        this.id = id;
     }
 
     @Override

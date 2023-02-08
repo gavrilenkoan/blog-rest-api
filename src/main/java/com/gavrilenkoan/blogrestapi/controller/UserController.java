@@ -54,14 +54,14 @@ public class UserController {
         return ResponseEntity.ok(userService.getFollowersById(id));
     }
 
-    @GetMapping("/followed/{id}")
+    @GetMapping("/following/{id}")
     public ResponseEntity<List<User>> getFollowed(@PathVariable Integer id) {
-        return ResponseEntity.ok(userService.getFollowedById(id));
+        return ResponseEntity.ok(userService.getFollowingById(id));
     }
 
-    @PostMapping("/{followedId}")
-    public ResponseEntity<String> addFollowed(HttpServletRequest request, @PathVariable Integer followedId) {
+    @PostMapping("/{followingId}")
+    public ResponseEntity<String> addFollowing(HttpServletRequest request, @PathVariable Integer followingId) {
         String token = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
-        return ResponseEntity.ok(userService.addFollowed(followedId, jwtService.extractId(token)));
+        return ResponseEntity.ok(userService.addFollowing(followingId, jwtService.extractId(token)));
     }
 }

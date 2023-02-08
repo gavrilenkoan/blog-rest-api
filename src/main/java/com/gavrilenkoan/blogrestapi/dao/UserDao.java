@@ -32,7 +32,10 @@ public interface UserDao {
 
     List<User> selectAllFollowersById(Integer id);
 
-    List<User> selectAllFollowedById(Integer id);
+    List<User> selectAllFollowingById(Integer id);
 
-    Integer insertFollowed(Integer userId, Integer followerId);
+    Integer insertFollowing(Integer userId, Integer followerId);
+
+    boolean isUserFollowerRelationExists(Integer userId, Integer followerId);
 }
+
