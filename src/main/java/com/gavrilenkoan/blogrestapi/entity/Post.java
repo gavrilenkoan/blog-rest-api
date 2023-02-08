@@ -12,7 +12,14 @@ public class Post {
     Integer id;
     String title;
     String text;
-    User user;
+    Integer userId;
     List<Comment> comments;
     List<Reaction> reactions;
+
+    public Post(Integer id, String title, String text, Integer userId) {
+        this.id = id;
+        this.title = title;
+        this.text = text;
+        this.userId = userId;
+    }
 }

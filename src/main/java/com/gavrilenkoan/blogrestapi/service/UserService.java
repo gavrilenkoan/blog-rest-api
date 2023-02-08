@@ -33,7 +33,8 @@ public class UserService {
     }
 
     public User updateUser(Integer id, UserDto userDto) {
-        if (userDto.getUsername() != null && !Objects.equals(userDto.getUsername(), "") && userDao.selectUserByUsername(userDto.getUsername()).isEmpty()) {
+        if (userDto.getUsername() != null && !Objects.equals(userDto.getUsername(), "")
+                && userDao.selectUserByUsername(userDto.getUsername()).isEmpty()) {
             userDao.updateUserUsername(id, userDto.getUsername());
         }
         if (userDto.getFirstname() != null && !Objects.equals(userDto.getFirstname(), "")) {
@@ -45,7 +46,8 @@ public class UserService {
         if (userDto.getPassword() != null && !Objects.equals(userDto.getPassword(), "")) {
             userDao.updateUserPassword(id, bCryptPasswordEncoder.encode(userDto.getPassword()));
         }
-        if (userDto.getEmail() != null && !Objects.equals(userDto.getEmail(), "") && userDao.selectUserByEmail(userDto.getEmail()).isEmpty()) {
+        if (userDto.getEmail() != null && !Objects.equals(userDto.getEmail(), "")
+                && userDao.selectUserByEmail(userDto.getEmail()).isEmpty()) {
             userDao.updateUserEmail(id, userDto.getEmail());
         }
         return userDao.selectUserById(id)
@@ -53,7 +55,8 @@ public class UserService {
     }
 
     public String deleteUser(Integer id) {
-        return userDao.deleteUser(id) == 1 ? "deleted successfully" : "smth went wrong";
+        userDao.deleteUser(id);
+        return "deleted successfully";
     }
 
     public List<User> getFollowersById(Integer id) {
@@ -69,8 +72,9 @@ public class UserService {
             throw new IllegalStateException("you can not follow yourself");
         }
         if (userDao.isUserFollowerRelationExists(userId, followerId)) {
-            throw new IllegalStateException("such relationship already exists");
+            throw new IllegalStateException("such relation already exists");
         }
-        return userDao.insertFollowing(userId, followerId) == 1 ? "inserted successfully" : "something went wrong";
+        userDao.insertFollowing(userId, followerId);
+        return "inserted successfully";
     }
 }

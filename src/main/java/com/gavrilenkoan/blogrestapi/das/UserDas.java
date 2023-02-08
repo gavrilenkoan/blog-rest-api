@@ -24,21 +24,25 @@ public class UserDas implements UserDao {
     public List<User> selectAllUsers() {
         var sql = "SELECT * FROM _user";
         return jdbcTemplate.query(sql, new UserRowMapper());
-        }
+    }
 
     @Override
     public void insertUser(UserDto userDto) {
         var sql = "INSERT INTO _user(username, firstname, lastname, email, \"password\") VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(
                 sql,
-                userDto.getUsername(), userDto.getFirstname(), userDto.getLastname(), userDto.getEmail(), userDto.getPassword()
+                userDto.getUsername(),
+                userDto.getFirstname(),
+                userDto.getLastname(),
+                userDto.getEmail(),
+                userDto.getPassword()
         );
     }
 
     @Override
-    public Integer deleteUser(Integer id) {
+    public void deleteUser(Integer id) {
         var sql = "DELETE FROM _user WHERE id = ?";
-        return jdbcTemplate.update(sql, id);
+        jdbcTemplate.update(sql, id);
     }
 
     @Override
@@ -108,9 +112,9 @@ public class UserDas implements UserDao {
     }
 
     @Override
-    public Integer insertFollowing(Integer userId, Integer followerId) {
+    public void insertFollowing(Integer userId, Integer followerId) {
         var sql = "INSERT INTO user_follower(user_id, follower_id) VALUES (?, ?)";
-        return jdbcTemplate.update(sql, userId, followerId);
+        jdbcTemplate.update(sql, userId, followerId);
     }
 
     @Override

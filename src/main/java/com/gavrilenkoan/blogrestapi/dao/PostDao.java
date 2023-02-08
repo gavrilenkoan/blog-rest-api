@@ -1,5 +1,6 @@
 package com.gavrilenkoan.blogrestapi.dao;
 
+import com.gavrilenkoan.blogrestapi.dto.PostDto;
 import com.gavrilenkoan.blogrestapi.entity.Post;
 
 import java.util.List;
@@ -11,12 +12,13 @@ public interface PostDao {
 
     List<Post> selectPostsByUserId(Integer userId);
 
-    Integer insertPost(Integer userId, Post post);
+    void insertPost(Integer userId, PostDto postDto);
 
-    Integer deletePost(Integer id);
+    void deletePost(Integer id);
 
     Optional<Post> selectPostById(Integer id);
 
-    Post updatePost(Integer id);
+    void updatePostTitle(Integer id, String title);
 
+    void updatePostText(Integer id, String text);
 }

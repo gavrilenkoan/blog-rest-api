@@ -50,13 +50,25 @@ public class UserController {
     }
 
     @GetMapping("/followers/{id}")
-    public ResponseEntity<List<User>> getFollowers(@PathVariable Integer id) {
+    public ResponseEntity<List<User>> getUsersFollowers(@PathVariable Integer id) {
         return ResponseEntity.ok(userService.getFollowersById(id));
     }
 
     @GetMapping("/following/{id}")
-    public ResponseEntity<List<User>> getFollowed(@PathVariable Integer id) {
+    public ResponseEntity<List<User>> getUsersFollowing(@PathVariable Integer id) {
         return ResponseEntity.ok(userService.getFollowingById(id));
+    }
+
+    @GetMapping("/followers")
+    public ResponseEntity<List<User>> getAuthenticatedUsersFollowers(HttpServletRequest request) {
+        String token = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
+        return ResponseEntity.ok(userService.getFollowersById(jwtService.extractId(token)));
+    }
+
+    @GetMapping("/following")
+    public ResponseEntity<List<User>> getAuthenticatedUsersFollowing(HttpServletRequest request) {
+        String token = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
+        return ResponseEntity.ok(userService.getFollowingById(jwtService.extractId(token)));
     }
 
     @PostMapping("/{followingId}")

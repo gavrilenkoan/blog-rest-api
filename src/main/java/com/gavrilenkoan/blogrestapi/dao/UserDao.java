@@ -12,7 +12,7 @@ public interface UserDao {
 
     void insertUser(UserDto userDto);
 
-    Integer deleteUser(Integer id);
+    void deleteUser(Integer id);
 
     Optional<User> selectUserById(Integer id);
 
@@ -34,7 +34,7 @@ public interface UserDao {
 
     List<User> selectAllFollowingById(Integer id);
 
-    Integer insertFollowing(Integer userId, Integer followerId);
+    void insertFollowing(Integer userId, Integer followerId);
 
     boolean isUserFollowerRelationExists(Integer userId, Integer followerId);
 }
