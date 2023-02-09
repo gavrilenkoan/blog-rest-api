@@ -50,7 +50,7 @@ public class CommentDas implements CommentDao {
 
     @Override
     public void deleteComment(Integer id) {
-        var sql = "DELETE FROM \"comment\" co USING comment_reply cr WHERE cr.comment_id = ?";
+        var sql = "DELETE FROM \"comment\" co USING comment_reply cr WHERE cr.reply_id = co.id AND cr.comment_id = ?";
         jdbcTemplate.update(sql, id);
         sql = "DELETE FROM \"comment\" WHERE id = ?";
         jdbcTemplate.update(sql, id);

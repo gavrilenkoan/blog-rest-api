@@ -52,8 +52,8 @@ public class CommentService {
     }
 
     public String deleteComment(Integer userId, Integer commentId) {
-        if (!Objects.equals(commentId, userId)) {
-            throw new IllegalStateException("you can not edit this post");
+        if (!Objects.equals(commentDao.selectCommentById(commentId).orElseThrow().getUserId(), userId)) {
+            throw new IllegalStateException("you can not edit this comment");
         }
         commentDao.deleteComment(commentId);
         return "deleted successfully";
