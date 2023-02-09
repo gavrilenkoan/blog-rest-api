@@ -59,9 +59,16 @@ public class CommentDas implements CommentDao {
     @Override
     public Optional<Comment> selectCommentById(Integer id) {
         var sql = "SELECT * FROM \"comment\" WHERE id = ?";
-        return jdbcTemplate.query(sql, new CommentRowMapper(), id)
+        Optional<Comment> comment = jdbcTemplate.query(sql, new CommentRowMapper(), id)
                 .stream()
                 .findFirst();
+        if (comment.orElseThrow().getPostId() == 0) {
+            sql = "SELECT co.id, co.\"comment\", co.date_of_publish, co.user_id, cr.comment_id FROM \"comment\" co JOIN comment_reply cr ON co.id = cr.reply_id WHERE co.id = ?";
+            return jdbcTemplate.query(sql, new ReplyRowMapper(), id)
+                    .stream()
+                    .findFirst();
+        }
+        return comment;
     }
 
     @Override

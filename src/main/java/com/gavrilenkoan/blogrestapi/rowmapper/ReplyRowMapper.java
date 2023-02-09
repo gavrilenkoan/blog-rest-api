@@ -15,7 +15,9 @@ public class ReplyRowMapper implements RowMapper<Comment> {
                 resultSet.getInt("id"),
                 resultSet.getString("comment"),
                 resultSet.getTimestamp("date_of_publish"),
-                resultSet.getInt("user_id")
+                resultSet.getInt("comment_id"),
+                resultSet.getInt("user_id"),
+                null
         );
     }
 }
