@@ -1,0 +1,7 @@
+CREATE TABLE comment (
+  id BIGSERIAL PRIMARY KEY,
+  "comment" VARCHAR(100) NOT NULL,
+  date_of_publish TIMESTAMP WITH TIME ZONE NOT NULL,
+  user_id BIGINT NOT NULL REFERENCES _user(id),
+  post_id BIGINT REFERENCES post(id)
+);
