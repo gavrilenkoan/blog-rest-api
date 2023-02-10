@@ -1,0 +1,7 @@
+CREATE TABLE reaction (
+    id BIGSERIAL PRIMARY KEY,
+    reaction BOOLEAN NOT NULL,
+    post_id BIGINT REFERENCES post(id) ON DELETE CASCADE,
+    user_id BIGINT NOT NULL REFERENCES _user(id) ON DELETE CASCADE,
+    comment_id BIGINT REFERENCES comment(id) ON DELETE CASCADE
+);
