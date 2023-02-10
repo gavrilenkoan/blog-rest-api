@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -19,12 +18,7 @@ public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public List<User> getAllUsers() {
-        return userDao.selectAllUsers()
-                .stream().peek(user -> {
-                    user.setFollowers(userDao.selectAllFollowersById(user.getId()));
-                    user.setFollowing(userDao.selectAllFollowingById(user.getId()));
-                }).
-                collect(Collectors.toList());
+        return userDao.selectAllUsers();
     }
 
     public User getUser(Integer id) {
