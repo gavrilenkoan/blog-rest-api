@@ -125,4 +125,10 @@ public class UserDas implements UserDao {
                 .findFirst()
                 .isPresent();
     }
+
+    @Override
+    public void deleteFollowing(Integer userId, Integer followerId) {
+        var sql = "DELETE FROM user_follower WHERE user_id = ? AND follower_id = ?";
+        jdbcTemplate.update(sql, userId, followerId);
+    }
 }

@@ -43,19 +43,23 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createPost(HttpServletRequest request, @RequestBody PostDto postDto) {
+    public ResponseEntity<String> createPost(HttpServletRequest request,
+                                             @RequestBody PostDto postDto) {
         String token = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
         return ResponseEntity.ok(postService.createPost(jwtService.extractId(token), postDto));
     }
 
     @PutMapping
-    public ResponseEntity<Post> updatePost(HttpServletRequest request, @RequestParam Integer postId, @RequestBody PostDto postDto) {
+    public ResponseEntity<Post> updatePost(HttpServletRequest request,
+                                           @RequestParam Integer postId,
+                                           @RequestBody PostDto postDto) {
         String token = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
         return ResponseEntity.ok(postService.updatePost(jwtService.extractId(token), postId, postDto));
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deletePost(HttpServletRequest request, @RequestParam Integer postId) {
+    public ResponseEntity<String> deletePost(HttpServletRequest request,
+                                             @RequestParam Integer postId) {
         String token = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
         return ResponseEntity.ok(postService.deletePost(jwtService.extractId(token), postId));
     }

@@ -67,7 +67,7 @@ public class UserService {
         return userDao.selectAllFollowingById(id);
     }
 
-    public String addFollowing(Integer userId, Integer followerId) {
+    public String follow(Integer userId, Integer followerId) {
         if (Objects.equals(userId, followerId)) {
             throw new IllegalStateException("you can not follow yourself");
         }
@@ -75,6 +75,14 @@ public class UserService {
             throw new IllegalStateException("such relation already exists");
         }
         userDao.insertFollowing(userId, followerId);
-        return "inserted successfully";
+        return "followed successfully";
+    }
+
+    public String unfollow(Integer userId, Integer followerId) {
+        if (Objects.equals(userId, followerId)) {
+            throw new IllegalStateException("you can not unfollow yourself");
+        }
+        userDao.deleteFollowing(userId, followerId);
+        return "unfollowed successfully";
     }
 }

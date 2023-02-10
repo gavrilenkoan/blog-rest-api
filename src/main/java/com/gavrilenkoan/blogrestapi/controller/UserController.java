@@ -38,7 +38,8 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<User> updateUser(HttpServletRequest request, @RequestBody UserDto userDto) {
+    public ResponseEntity<User> updateUser(HttpServletRequest request,
+                                           @RequestBody UserDto userDto) {
         String token = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
         return ResponseEntity.ok(userService.updateUser(jwtService.extractId(token), userDto));
     }
@@ -71,9 +72,17 @@ public class UserController {
         return ResponseEntity.ok(userService.getFollowingById(jwtService.extractId(token)));
     }
 
-    @PostMapping("/{followingId}")
-    public ResponseEntity<String> addFollowing(HttpServletRequest request, @PathVariable Integer followingId) {
+    @PostMapping("/{userId}")
+    public ResponseEntity<String> follow(HttpServletRequest request,
+                                         @PathVariable Integer userId) {
         String token = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
-        return ResponseEntity.ok(userService.addFollowing(followingId, jwtService.extractId(token)));
+        return ResponseEntity.ok(userService.follow(userId, jwtService.extractId(token)));
+    }
+
+    @DeleteMapping("/unfollow")
+    public ResponseEntity<String> unfollow(HttpServletRequest request,
+                                           @RequestParam Integer userId) {
+        String token = request.getHeader(AUTHORIZATION).substring("Bearer ".length());
+        return ResponseEntity.ok(userService.unfollow(userId, jwtService.extractId(token)));
     }
 }

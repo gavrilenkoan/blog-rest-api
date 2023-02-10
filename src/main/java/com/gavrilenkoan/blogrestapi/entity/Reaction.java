@@ -12,4 +12,12 @@ public class Reaction {
     Integer userId;
     Integer postId;
     Integer commentId;
+
+    public Reaction(Integer id, Boolean reaction, Integer userId, Integer postId, Integer commentId) {
+        this.id = id;
+        this.reaction = reaction;
+        this.userId = userId;
+        this.postId = postId;
+        this.commentId = commentId;
+    }
 }

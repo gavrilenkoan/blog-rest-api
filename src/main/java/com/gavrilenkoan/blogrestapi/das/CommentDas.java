@@ -46,13 +46,14 @@ public class CommentDas implements CommentDao {
         Integer replyId = jdbcTemplate.queryForObject("SELECT currval('comment_id_seq')", Integer.class);
         sql = "INSERT INTO comment_reply(comment_id, reply_id) VALUES (?, ?)";
         jdbcTemplate.update(sql, commentId, replyId);
+        Integer commentReplyId = jdbcTemplate.queryForObject("SELECT currval('comment_reply_id_seq')", Integer.class);
+        sql = "UPDATE \"comment\" SET comment_reply_id = ? WHERE id = ?";
+        jdbcTemplate.update(sql, commentReplyId, replyId);
     }
 
     @Override
     public void deleteComment(Integer id) {
-        var sql = "DELETE FROM \"comment\" co USING comment_reply cr WHERE cr.reply_id = co.id AND cr.comment_id = ?";
-        jdbcTemplate.update(sql, id);
-        sql = "DELETE FROM \"comment\" WHERE id = ?";
+        var sql = "DELETE FROM \"comment\" WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
 

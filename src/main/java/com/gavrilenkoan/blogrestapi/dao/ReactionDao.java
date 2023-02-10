@@ -1,5 +1,6 @@
 package com.gavrilenkoan.blogrestapi.dao;
 
+import com.gavrilenkoan.blogrestapi.dto.ReactionDto;
 import com.gavrilenkoan.blogrestapi.entity.Reaction;
 
 import java.util.List;
@@ -11,13 +12,17 @@ public interface ReactionDao {
 
     List<Reaction> selectReactionsByCommentId(Integer commentId);
 
-    Integer insertReactionByPostId(Integer userId, Integer postId, Reaction reaction);
+    void insertReactionByPostId(Integer userId, Integer postId, ReactionDto reactionDto);
 
-    Integer insertReactionByCommentId(Integer userId, Integer commentId, Reaction reaction);
+    void insertReactionByCommentId(Integer userId, Integer commentId, ReactionDto reactionDto);
 
-    Integer deleteReaction(Integer id);
+    void deleteReaction(Integer id);
 
     Optional<Reaction> selectReactionById(Integer id);
 
-    Reaction updateReaction(Integer id);
+    void updateReaction(Integer id, ReactionDto reactionDto);
+
+    boolean ReactionUserPostRelationExists(Integer userId, Integer postId);
+
+    boolean ReactionUserCommentRelationExists(Integer userId, Integer commentId);
 }

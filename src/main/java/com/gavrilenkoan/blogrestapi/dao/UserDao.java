@@ -37,5 +37,7 @@ public interface UserDao {
     void insertFollowing(Integer userId, Integer followerId);
 
     boolean isUserFollowerRelationExists(Integer userId, Integer followerId);
+
+    void deleteFollowing(Integer userId, Integer followerId);
 }
 
